@@ -61,8 +61,8 @@ io.on('connection', (socket) => {
                     user.y = data.y;
                     console.log(user);
 
-                    socket.emit('updatePosition', user);
-                    //socket.broadcast.emit('updatePosition', user);
+                    //socket.emit('updatePosition', user);
+                    socket.broadcast.emit('updatePosition', user);
                 });
             });
         });
