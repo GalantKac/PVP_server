@@ -22,13 +22,15 @@ io.on('connection', (socket) => {
 
             user = loginUser;
             thisUserId = loginUser.id;
-            user.x = parseFloat(user.x.replace(",", "."));
-            user.y = parseFloat(user.y.replace(",", "."));
+          //  user.x = parseFloat(user.x.replace(",", "."));
+          //  user.y = parseFloat(user.y.replace(",", "."));
 
             console.log(user);
 
             users[thisUserId] = user;
             sockets[thisUserId] = socket;
+
+            socket.emit('loginCompleted', user);
 
             //wyslij inforamcje o userze w menu
            // socket.emit('userInformation', (user) =>{});
@@ -53,13 +55,14 @@ io.on('connection', (socket) => {
 
                 // aktualizacja pozycji gracza i powiadomienie o tym innych
                 socket.on('updatePosition', (data) => {
-                    let tmpX = parseFloat(data.x.replace(",", "."));
-                    let tmpY = parseFloat(data.y.replace(",", "."));
-                    user.x = tmpX;
-                    user.y = tmpY;
+                    // let tmpX = parseFloat(data.x.replace(",", "."));
+                    // let tmpY = parseFloat(data.y.replace(",", "."));
+                    user.x = data.x;
+                    user.y = data.y;
                     console.log(user);
 
-                    socket.broadcast.emit('updatePosition', user);
+                    socket.emit('updatePosition', user);
+                    //socket.broadcast.emit('updatePosition', user);
                 });
             });
         });
