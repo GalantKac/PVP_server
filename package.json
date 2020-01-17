@@ -1,0 +1,22 @@
+{
+  "name": "serverpvp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./Server/server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "require": "^2.4.20",
+    "sequelize": "^5.21.3",
+    "server": "^1.0.22",
+    "shortid": "^2.2.15",
+    "socket.io": "^2.3.0",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kacper Galantowicz",
+  "license": "ISC"
+}
