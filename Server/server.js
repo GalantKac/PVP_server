@@ -22,8 +22,8 @@ io.on('connection', (socket) => {
 
             user = loginUser;
             thisUserId = loginUser.id;
-          //  user.x = parseFloat(user.x.replace(",", "."));
-          //  user.y = parseFloat(user.y.replace(",", "."));
+            //  user.x = parseFloat(user.x.replace(",", "."));
+            //  user.y = parseFloat(user.y.replace(",", "."));
 
             console.log(user);
 
@@ -33,38 +33,39 @@ io.on('connection', (socket) => {
             socket.emit('loginCompleted', user);
 
             //wyslij inforamcje o userze w menu
-           // socket.emit('userInformation', (user) =>{});
+            // socket.emit('userInformation', (user) =>{});
 
-            socket.on('join', () => {
-                console.log('Join to game Player: ' + thisUserId);
+        });
 
-                //wysylanie inforamcji ze sie stowrzylem
-                socket.emit('spawn', user);
+        socket.on('join', () => {
+            console.log('Join to game Player: ' + thisUserId);
 
-                // wysylanie inforamcji do innych ze sie stworzylem
-                socket.broadcast.emit('spawn', user);
+            //wysylanie inforamcji ze sie stowrzylem
+            socket.emit('spawn', user);
 
-                //powiedz mi kto jest w grze
-                for (let playerID in users) {
-                    if (playerID != thisUserId) {
-                        {
-                            socket.emit('spawn', users[thisUserId])
-                        }
+            // wysylanie inforamcji do innych ze sie stworzylem
+            socket.broadcast.emit('spawn', user);
+
+            //powiedz mi kto jest w grze
+            for (let playerID in users) {
+                if (playerID != thisUserId) {
+                    {
+                        socket.emit('spawn', users[thisUserId])
                     }
                 }
+            }
+        });
 
-                // aktualizacja pozycji gracza i powiadomienie o tym innych
-                socket.on('updatePosition', (data) => {
-                    // let tmpX = parseFloat(data.x.replace(",", "."));
-                    // let tmpY = parseFloat(data.y.replace(",", "."));
-                    user.x = data.x;
-                    user.y = data.y;
-                    console.log(user);
+        // aktualizacja pozycji gracza i powiadomienie o tym innych
+        socket.on('updatePosition', (data) => {
+            // let tmpX = parseFloat(data.x.replace(",", "."));
+            // let tmpY = parseFloat(data.y.replace(",", "."));
+            user.x = data.x;
+            user.y = data.y;
+            console.log('ID: ' + user.id + ' x: ' + user.x + ' y: ' + user.y);
 
-                    //socket.emit('updatePosition', user);
-                    socket.broadcast.emit('updatePosition', user);
-                });
-            });
+            //socket.emit('updatePosition', user);
+            socket.broadcast.emit('updatePosition', user);
         });
 
         socket.on('disconnect', () => {
