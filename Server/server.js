@@ -35,39 +35,40 @@ io.on('connection', (socket) => {
             //wyslij inforamcje o userze w menu
             // socket.emit('userInformation', (user) =>{});
 
-        });
 
-        socket.on('join', () => {
-            console.log('Join to game Player: ' + thisUserId);
+            socket.on('join', () => {
+                console.log('Join to game Player: ' + thisUserId);
 
-            //wysylanie inforamcji ze sie stowrzylem
-            socket.emit('spawn', user);
+                //wysylanie inforamcji ze sie stowrzylem
+                socket.emit('spawn', user);
 
-            // wysylanie inforamcji do innych ze sie stworzylem
-            socket.broadcast.emit('spawn', user);
+                // wysylanie inforamcji do innych ze sie stworzylem
+                socket.broadcast.emit('spawn', user);
 
-            //powiedz mi kto jest w grze
-            for (let playerID in users) {
-                if (playerID != thisUserId) {
-                    {
-                        socket.emit('spawn', users[thisUserId])
+                //powiedz mi kto jest w grze
+                for (let playerID in users) {
+                    if (playerID != thisUserId) {
+                        {
+                            socket.emit('spawn', users[playerID])
+                        }
                     }
                 }
-            }
+
+                // aktualizacja pozycji gracza i powiadomienie o tym innych
+                socket.on('updatePosition', (data) => {
+
+
+                    // let tmpX = parseFloat(data.x.replace(",", "."));
+                    // let tmpY = parseFloat(data.y.replace(",", "."));
+                    user.x = data.x;
+                    user.y = data.y;
+                    console.log('ID: ' + user.id + ' x: ' + user.x + ' y: ' + user.y);
+
+                    //socket.emit('updatePosition', user);
+                    socket.broadcast.emit('updatePosition', user);
+                });
+            });
         });
-
-        // aktualizacja pozycji gracza i powiadomienie o tym innych
-        socket.on('updatePosition', (data) => {
-            // let tmpX = parseFloat(data.x.replace(",", "."));
-            // let tmpY = parseFloat(data.y.replace(",", "."));
-            user.x = data.x;
-            user.y = data.y;
-            console.log('ID: ' + user.id + ' x: ' + user.x + ' y: ' + user.y);
-
-            //socket.emit('updatePosition', user);
-            socket.broadcast.emit('updatePosition', user);
-        });
-
         socket.on('disconnect', () => {
             console.log('User disconnected');
             delete users[thisUserId];
