@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
                 for (let playerID in users) {
                     if (playerID != thisUserId) {
                         {
+                            //TU byl blad !!!!
                             socket.emit('spawn', users[playerID])
                         }
                     }
