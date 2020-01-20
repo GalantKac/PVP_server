@@ -72,9 +72,17 @@ io.on('connection', (socket) => {
                 //aktualizacja rotacji gracza
                 socket.on('updateRotation', (data) => {
                     user.rotationX = data.rotationX;
-                    console.log('Rotation' + user.rotationX);
-                    //socket.emit('updateRotation', user);
+                    //console.log('Rotation' + user.rotationX);
                     socket.broadcast.emit('updateRotation', user);
+                });
+
+                //aktualizacja animacji
+                socket.on('updateAnimation', (data) => {
+
+                    user.animState = data.animState;
+                   console.log('AnimationState: ' + data.animState);
+                    //socket.emit('updateAnimation', user);
+                    socket.broadcast.emit('updateAnimation', user);
                 })
             });
         });

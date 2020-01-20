@@ -11,5 +11,6 @@ module.exports = class User {
         this.x = 0.1;
         this.y = 0.1;
         this.rotationX = 4;
+        this.animState = 'Idle';
     }
 }
