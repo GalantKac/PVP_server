@@ -10,5 +10,6 @@ module.exports = class User {
         this.loses = loses;
         this.x = 0.1;
         this.y = 0.1;
+        this.rotationX = 4;
     }
 }

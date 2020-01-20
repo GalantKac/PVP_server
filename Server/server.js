@@ -63,11 +63,19 @@ io.on('connection', (socket) => {
                     // let tmpY = parseFloat(data.y.replace(",", "."));
                     user.x = data.x;
                     user.y = data.y;
-                    console.log('ID: ' + user.id + ' x: ' + user.x + ' y: ' + user.y);
+                    // console.log('ID: ' + user.id + ' x: ' + user.x + ' y: ' + user.y);
 
                     //socket.emit('updatePosition', user);
                     socket.broadcast.emit('updatePosition', user);
                 });
+
+                //aktualizacja rotacji gracza
+                socket.on('updateRotation', (data) => {
+                    user.rotationX = data.rotationX;
+                    console.log('Rotation' + user.rotationX);
+                    //socket.emit('updateRotation', user);
+                    socket.broadcast.emit('updateRotation', user);
+                })
             });
         });
         socket.on('disconnect', () => {
