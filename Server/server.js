@@ -80,7 +80,7 @@ io.on('connection', (socket) => {
                 socket.on('updateAnimation', (data) => {
 
                     user.animState = data.animState;
-                   console.log('AnimationState: ' + data.animState);
+                    user.grounded = data.grounded;
                     //socket.emit('updateAnimation', user);
                     socket.broadcast.emit('updateAnimation', user);
                 })
