@@ -40,6 +40,8 @@ io.on('connection', (socket) => {
                 console.log('Join to game Player: ' + thisUserId);
 
                 //wysylanie inforamcji ze sie stowrzylem
+                user.hp = 200;
+                user.isDead = false;
                 socket.emit('spawn', user);
 
                 // wysylanie inforamcji do innych ze sie stworzylem
@@ -80,8 +82,15 @@ io.on('connection', (socket) => {
                     for (var hitUser in users) {
                         if (hitUser == data.id) {
                             users[hitUser].hp -= Math.floor(Math.random() * 31); // losowy damage
-                            socket.emit('updateHp', users[hitUser]);
-                            socket.broadcast.emit('updateHp', users[hitUser]);
+                            if (users[hitUser].hp > 0) {
+                                socket.emit('updateHp', users[hitUser]);
+                                socket.broadcast.emit('updateHp', users[hitUser]);
+                            } else {
+                                users[hitUser].isDead = true;
+                               // socket.broadcast.emit('backToMenu', users[hitUser]);
+                                socket.emit('dead', users[hitUser]);
+                                socket.broadcast.emit('dead', users[hitUser]);
+                            }
                         }
                     }
                 });

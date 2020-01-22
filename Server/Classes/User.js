@@ -14,6 +14,6 @@ module.exports = class User {
         this.animState = 'Idle';
         this.grounded = false;
         this.hp = 200;
-        this.isDeath = false;
+        this.isDead = false;
     }
 }
