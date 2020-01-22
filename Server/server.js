@@ -57,33 +57,35 @@ io.on('connection', (socket) => {
 
                 // aktualizacja pozycji gracza i powiadomienie o tym innych
                 socket.on('updatePosition', (data) => {
-
-
-                    // let tmpX = parseFloat(data.x.replace(",", "."));
-                    // let tmpY = parseFloat(data.y.replace(",", "."));
                     user.x = data.x;
                     user.y = data.y;
-                    // console.log('ID: ' + user.id + ' x: ' + user.x + ' y: ' + user.y);
-
-                    //socket.emit('updatePosition', user);
                     socket.broadcast.emit('updatePosition', user);
                 });
 
                 //aktualizacja rotacji gracza
                 socket.on('updateRotation', (data) => {
                     user.rotationX = data.rotationX;
-                    //console.log('Rotation' + user.rotationX);
                     socket.broadcast.emit('updateRotation', user);
                 });
 
                 //aktualizacja animacji
                 socket.on('updateAnimation', (data) => {
-
                     user.animState = data.animState;
                     user.grounded = data.grounded;
-                    //socket.emit('updateAnimation', user);
                     socket.broadcast.emit('updateAnimation', user);
-                })
+                });
+
+                //aktaulizacja stanu zycia gracza
+                socket.on('updateHp', (data) => {
+                    for (var hitUser in users) {
+                        if (hitUser == data.id) {
+                            users[hitUser].hp -= Math.floor(Math.random() * 31); // losowy damage
+                            socket.emit('updateHp', users[hitUser]);
+                            socket.broadcast.emit('updateHp', users[hitUser]);
+                        }
+                    }
+                });
+
             });
         });
         socket.on('disconnect', () => {

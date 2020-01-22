@@ -13,5 +13,7 @@ module.exports = class User {
         this.rotationX = 4;
         this.animState = 'Idle';
         this.grounded = false;
+        this.hp = 200;
+        this.isDeath = false;
     }
 }
